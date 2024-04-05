@@ -10,12 +10,12 @@ export interface Tags {
   name: string;
 }
 
-export type TagsDTO = Readonly<Array<Tags>>;
+export type TagsDTO = Readonly<Tags>;
 
 export const useTags = () => {
   const getTags = () =>
     axiosInstance
-      .get<{ items: TagsDTO }>(`${TAGS}?order=asc&site=stackoverflow`)
+      .get<{ items: TagsDTO[] }>(`${TAGS}?order=asc&site=stackoverflow`)
       .then((res) => res.data.items);
 
   return { getTags };

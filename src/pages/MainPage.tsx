@@ -1,16 +1,11 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Tags, TagsDTO, useTags } from "../hooks/useTags";
-import { useEffect } from "react";
+import TagsTable from "../components/TagsTable";
 
 const MainPage = () => {
-  const { getTags } = useTags();
-
-  const { isLoading, isSuccess, isError, data } = useQuery<TagsDTO>({
-    queryKey: ["tags"],
-    queryFn: getTags,
-  });
-
-  return <div></div>;
+  return (
+    <div>
+      <TagsTable />
+    </div>
+  );
 };
 
 export default MainPage;
