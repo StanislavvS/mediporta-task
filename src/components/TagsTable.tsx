@@ -17,8 +17,8 @@ const TagsTable = () => {
   const { getTags } = useTags();
   const { errorObject } = useErrors();
   const { queries, setQueries } = useQueriesContext();
-  const { order, page, pageSize, sortBy, total } = queries;
-  const { isLoading, isSuccess, isError, data, error } = useQuery<TagsDTO[]>({
+  const { page, pageSize, total } = queries;
+  const { isLoading, isError, data, error } = useQuery<TagsDTO[]>({
     queryKey: ["tags", queries],
     queryFn: () => getTags(queries),
     retry: 1,
