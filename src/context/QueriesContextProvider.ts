@@ -2,9 +2,10 @@ import React, { createContext } from "react";
 
 export interface QueryTags {
   order: "asc" | "desc";
-  page: number;
+  page?: number;
   pageSize: number;
   sortBy: "popular" | "name" | "activity";
+  total: number;
 }
 
 interface QueriesContextStateIterface {
