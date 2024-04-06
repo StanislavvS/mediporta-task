@@ -8,6 +8,12 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: ["Atoms", "Molecules", "Organisms", "Pages"],
+        method: "numeric",
+      },
+    },
   },
 };
 

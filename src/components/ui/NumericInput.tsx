@@ -3,7 +3,15 @@ import { InputNumber } from "antd";
 import type { InputNumberProps } from "antd";
 import { useQueriesContext } from "../../context/hooks/useQueriesContext";
 
-const NumericInput = () => {
+interface NumericInputProps {
+  label: string;
+  id: string;
+  min: number;
+  max: number;
+  defaultValue: number;
+}
+
+const NumericInput = ({ label, id, min, max }: NumericInputProps) => {
   const { setQueries, queries } = useQueriesContext();
   const { pageSize } = queries;
   const onChange: InputNumberProps["onChange"] = (value) => {
@@ -15,12 +23,12 @@ const NumericInput = () => {
 
   return (
     <div className={styles["numeric-input"]}>
-      <label htmlFor="numeric">Select page size:</label>
+      <label htmlFor={id}>{label}</label>
       <InputNumber
         id="numeric"
-        min={1}
-        max={100}
-        defaultValue={queries.pageSize}
+        min={min}
+        max={max}
+        defaultValue={pageSize}
         onChange={onChange}
       />
     </div>

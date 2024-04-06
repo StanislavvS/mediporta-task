@@ -1,9 +1,6 @@
-interface HeaderProps {
-  headerTextValue: string;
-}
-
-const Header = ({ headerTextValue }: HeaderProps) => {
-  return <h1>{headerTextValue}</h1>;
+const Header = (props: React.PropsWithChildren) => {
+  const { children } = props;
+  return <h1>{children}</h1>;
 };
 
 export default Header;
