@@ -1,10 +1,11 @@
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { TagsDTO, useTags } from "../hooks/useTags";
 import { useQueriesContext } from "../context/hooks/useQueriesContext";
 import type { TableColumnsType, TableProps } from "antd";
 import styles from "./TagsTable.module.scss";
+import { AxiosError } from "axios";
 import { Table } from "antd";
+import { useErrors } from "../hooks/useErrors";
 
 interface DataType {
   key: React.Key;
@@ -14,11 +15,13 @@ interface DataType {
 
 const TagsTable = () => {
   const { getTags } = useTags();
+  const { errorObject } = useErrors();
   const { queries, setQueries } = useQueriesContext();
   const { order, page, pageSize, sortBy, total } = queries;
-  const { isLoading, isSuccess, isError, data } = useQuery<TagsDTO[]>({
+  const { isLoading, isSuccess, isError, data, error } = useQuery<TagsDTO[]>({
     queryKey: ["tags", queries],
     queryFn: () => getTags(queries),
+    retry: 1,
   });
 
   const dataSource = data?.map((tag) => {
@@ -70,6 +73,24 @@ const TagsTable = () => {
         dataSource={dataSource}
         //@ts-ignore
         columns={columns}
+        loading={isLoading}
+        locale={{
+          emptyText() {
+            return isError ? (
+              <>
+                <p className={"table-container__empty-message--error"}>
+                  {
+                    errorObject[
+                      (error as AxiosError)?.response?.status as number
+                    ].message
+                  }
+                </p>
+              </>
+            ) : (
+              <p className={"table-container__empty-message"}>No Data</p>
+            );
+          },
+        }}
         showSorterTooltip={{ target: "sorter-icon" }}
         onChange={handleTableChange}
         pagination={{
