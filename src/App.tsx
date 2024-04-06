@@ -15,6 +15,7 @@ function App() {
     page: 1,
     pageSize: 30,
     sortBy: "popular",
+    total: 750,
   });
 
   return (
