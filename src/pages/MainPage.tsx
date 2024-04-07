@@ -15,6 +15,7 @@ const MainPage = () => {
     queryFn: () => getTags(queries),
     retry: 1,
   });
+  const { page, pageSize, total } = queries;
   return (
     <div className={styles["main-page"]}>
       <Header>Stack overflow tag page</Header>
@@ -27,6 +28,9 @@ const MainPage = () => {
       />
 
       <TagsTable
+        page={page}
+        pageSize={pageSize}
+        total={total}
         emptyMessage="No Data"
         data={data}
         isLoading={isLoading}

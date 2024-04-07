@@ -17,6 +17,9 @@ interface TagsTableProps {
   isLoading: boolean;
   emptyMessage: string;
   error: AxiosError;
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
 const TagsTable = ({
@@ -24,10 +27,12 @@ const TagsTable = ({
   isLoading,
   error,
   emptyMessage,
+  page,
+  pageSize,
+  total,
 }: TagsTableProps) => {
   const { errorObject } = useErrors();
-  const { queries, setQueries } = useQueriesContext();
-  const { page, pageSize, total } = queries;
+  const { setQueries } = useQueriesContext();
 
   const dataSource = data?.map((tag) => {
     return { name: tag.name, count: tag.count };
@@ -60,7 +65,7 @@ const TagsTable = ({
   ) => {
     setQueries((prevState) => ({
       ...prevState,
-      page: pagination.current,
+      page: pagination.current as number,
     }));
 
     if (sorter.order) {
