@@ -16,7 +16,7 @@ interface TagsTableProps {
   data?: TagsDTO[];
   isLoading: boolean;
   emptyMessage: string;
-  error: AxiosError;
+  error: AxiosError | null;
   page: number;
   pageSize: number;
   total: number;

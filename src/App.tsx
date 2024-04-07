@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./App.module.scss";
 import MainPage from "./pages/MainPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   QueriesContextProvider,
   QueryTags,
@@ -25,7 +24,6 @@ function App() {
         <div className={styles["App"]}>
           <MainPage />
         </div>
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </QueriesContextProvider>
   );
