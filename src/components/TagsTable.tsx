@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { TagsDTO, useTags } from "../hooks/useTags";
+import { TagsDTO } from "../hooks/useTags";
 import { useQueriesContext } from "../context/hooks/useQueriesContext";
 import type { TableColumnsType, TableProps } from "antd";
 import styles from "./TagsTable.module.scss";
@@ -13,16 +12,27 @@ interface DataType {
   count: number;
 }
 
-const TagsTable = () => {
-  const { getTags } = useTags();
+interface TagsTableProps {
+  data?: TagsDTO[];
+  isLoading: boolean;
+  emptyMessage: string;
+  error: AxiosError | null;
+  page: number;
+  pageSize: number;
+  total: number;
+}
+
+const TagsTable = ({
+  data,
+  isLoading,
+  error,
+  emptyMessage,
+  page,
+  pageSize,
+  total,
+}: TagsTableProps) => {
   const { errorObject } = useErrors();
-  const { queries, setQueries } = useQueriesContext();
-  const { page, pageSize, total } = queries;
-  const { isLoading, isError, data, error } = useQuery<TagsDTO[]>({
-    queryKey: ["tags", queries],
-    queryFn: () => getTags(queries),
-    retry: 1,
-  });
+  const { setQueries } = useQueriesContext();
 
   const dataSource = data?.map((tag) => {
     return { name: tag.name, count: tag.count };
@@ -55,7 +65,7 @@ const TagsTable = () => {
   ) => {
     setQueries((prevState) => ({
       ...prevState,
-      page: pagination.current,
+      page: pagination.current as number,
     }));
 
     if (sorter.order) {
@@ -76,18 +86,14 @@ const TagsTable = () => {
         loading={isLoading}
         locale={{
           emptyText() {
-            return isError ? (
+            return error ? (
               <>
                 <p className={"table-container__empty-message--error"}>
-                  {
-                    errorObject[
-                      (error as AxiosError)?.response?.status as number
-                    ].message
-                  }
+                  {errorObject[error?.response?.status as number].message}
                 </p>
               </>
             ) : (
-              <p className={"table-container__empty-message"}>No Data</p>
+              <p className={"table-container__empty-message"}>{emptyMessage}</p>
             );
           },
         }}
